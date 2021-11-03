@@ -1,0 +1,15 @@
+<div class="card text-center">
+  <div class="card-body">
+    <h5 class="card-title"><%= @vlog.title %></h5>
+    <p class="card-text"><%= @vlog.content %></p>
+    <%= link_to 'Edit', edit_vlog_path(@vlog), class:"btn btn-primary"%> 
+    <%= link_to 'Back', vlogs_path, class:"btn btn-primary" %>
+  </div>
+  <div class="card-footer text-muted">
+    <strong>Created:</strong>
+    <%= @vlog.created_at %>
+    <br/>
+    <strong>Updated:</strong>
+    <%= @vlog.updated_at %>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<%= form_with(model: vlog) do |form| %>
+  <% if vlog.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vlog.errors.count, "error") %> prohibited this vlog from being saved:</h2>
+
+      <ul>
+        <% vlog.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.text_field :title, class:"form-control", placeholder:"Title" %>
+  </div>
+  <br/>
+  <div class="field form-group">
+    <%= form.text_area :content, class:"form-control", placeholder:"Content"%>
+  </div>
+  <br/>
+  <div class="field form-group">
+    <%= form.text_field :user_name, class:"form-control", placeholder:"Publisher" %>
+  </div>
+
+<br/>
+  <div class="actions">
+    <%= form.submit class:"btn btn-info"%>
+  </div>
+<% end %>

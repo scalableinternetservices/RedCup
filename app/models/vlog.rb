@@ -1,0 +1,2 @@
+class Vlog < ApplicationRecord
+end

@@ -1,0 +1,29 @@
+<h1>Vlogs</h1>
+
+<table class="table table-striped table-bordered table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th>User name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vlogs.each do |vlog| %>
+      <tr>
+        <td><%= vlog.title %></td>
+        <td><%= vlog.content %></td>
+        <td><%= vlog.user_name %></td>
+        <td><%= link_to 'Show', vlog %></td>
+        <td><%= link_to 'Edit', edit_vlog_path(vlog) %></td>
+        <td><%= link_to 'Destroy', vlog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Vlog', new_vlog_path, class:"btn btn-primary"%>
