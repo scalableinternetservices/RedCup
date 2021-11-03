@@ -1,6 +1,6 @@
-<h1>Posts</h1>
+<h1 class="text-6xl font-bold leading-normal mt-0 mb-2">Posts</h1>
 
-<ul>
+<ul class="list-disc list-inside	">
   <% @post_from_db.each do |p| %>
     <li>
       <a href="<%= post_path(p) %>">
@@ -10,4 +10,6 @@
   <% end %>
 
 </ul>
-<%= link_to "Add", new_post_path() %>
+
+<br>
+<%= link_to "Add", new_post_path(), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
