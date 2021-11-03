@@ -1,0 +1,13 @@
+<h1>Posts</h1>
+
+<ul>
+  <% @post_from_db.each do |p| %>
+    <li>
+      <a href="<%= post_path(p) %>">
+        <%= p.title %>
+      </a>
+    </li>
+  <% end %>
+
+</ul>
+<%= link_to "Add", new_post_path() %>
