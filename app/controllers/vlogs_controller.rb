@@ -27,7 +27,9 @@ class VlogsController < ApplicationController
 
   def correct_user
     @vlog = current_user.vlogs.find_by(id: params[:id])
-    redirect_to vlogs_path, notice: "Not Authorized To Edit This Vlog! #{params}" if @vlog.nil?
+    redirect_to vlogs_path, notice: "Not Authorized To Edit This Vlog!" if @vlog.nil?
+    #
+    #
   end
 
   # POST /vlogs or /vlogs.json

@@ -2,22 +2,32 @@
 <h1>Vlogs</h1>
 
 <table class="table table-striped table-bordered table-hover">
-  <thead class="table-dark">
-    <tr>
-      <th>Title</th>
-      <th>Content</th>
-      <th>User name</th>
-      <th>User Id</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
-
+  <%if user_signed_in?%>
+    <thead class="table-dark">
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>User name</th>
+        <th>User Id</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+  <%else%>
+    <thead class="table-dark">
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>User name</th>
+        <th>User Id</th>
+      </tr>
+    </thead>
+  <%end%>
   <tbody>
     <% @vlogs.each do |vlog| %>
       <tr>
         <td><%= link_to vlog.title, vlog %></td>
-        <td><%= vlog.content[0,160] %>
-            <%if vlog.content.length > 160 %>
+        <td><%= vlog.content[0,100] %>
+            <%if vlog.content.length > 100 %>
              ...
             <%end%>
         </td>
@@ -29,9 +39,8 @@
         <%end%>
         <% if vlog.user == current_user %>
           <td><%= link_to 'Delete', vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger" %> </td>
-        <% else %>
-          <td>
-          </td>
+        <%elsif user_signed_in? %>
+          <td> </td>
         <% end %>
       </tr>
     <% end %>
