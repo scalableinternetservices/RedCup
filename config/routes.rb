@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   
   resources :vlogs do
-   resources :comments
+  resources :comments
   end
   get 'home/index'
   get 'home/about'
