@@ -1,0 +1,41 @@
+<div style="width: 80%;margin: AUTO;">
+  <h1>Vlogs</h1>
+
+  <% @vlogs.each do |vlog| %>
+    <div class="card  bg-light mb-3">
+      <h4 class="card-header">
+        <%= link_to vlog.title, vlog, style:"text-decoration: none;" %>
+      </h4>
+      <div class="card-body">
+          <p class="card-text">
+            <%= vlog.content[0,100] %>
+            <%if vlog.content.length > 100 %>
+                ...
+            <%end%>       
+          </p>
+
+          <p class="card-text">
+            User 
+            <% if vlog.user_id == 5 %>
+                Anonymous
+            <%else%>
+                <%= vlog.user_id%>
+                  <%if vlog.user.nil?%>
+                    (Account Cancled)
+                  <%end%>
+            <%end%>
+            <%= vlog.updated_at %></td>
+          </p>
+    </div>
+    <div class="card-footer bg-transparent border-success">
+      <% if user_signed_in? and vlog.user == current_user%>
+          <%= link_to 'Delete', vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-outline-danger btn-sm" %>
+        <% end %>
+    </div>
+    </div>
+  <% end %>
+
+<br/>
+<%= link_to 'New Vlog', new_vlog_path, class:"btn btn-primary"%>
+</div>
+<br/>

@@ -1,0 +1,43 @@
+<%= form_with(model: vlog) do |form| %>
+  <% if vlog.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vlog.errors.count, "error") %> prohibited this vlog from being saved:</h2>
+
+      <ul>
+        <% vlog.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.text_field :title, class:"form-control", placeholder:"Title" %>
+  </div>
+  <br/>
+  <div class="field form-group">
+    <%= form.text_area :content, class:"form-control",style:"min-height: 500px;line-height: 20px;", placeholder:"Content"%>
+  </div>
+  <br/>
+  <% if user_signed_in? %>
+    <div class="field form-group">
+      <%= form.text_field :user_name, class:"form-control", placeholder:"Publisher", value:current_user.email.split('@',0)[0] +"_" +  current_user.id.to_s, type: :hidden%>
+    </div>
+  
+    <div class="field form-group">
+      <%= form.number_field :user_id, id: :vlog_user_id, class:"form-control", placeholder:"User Id", value:current_user.id, type: :hidden%>
+    </div>
+  <% else %>
+    <div class="field form-group">
+      <%= form.text_field :user_name, class:"form-control", placeholder:"Publisher", value: "Anonymous", type: :hidden %>
+    </div>
+  
+    <div class="field form-group">
+      <%= form.number_field :user_id, id: :vlog_user_id, class:"form-control", placeholder:"User Id", value:5, type: :hidden%>
+    </div>
+  <% end %>
+  
+  <div class="actions">
+    <%= form.submit class:"btn btn-info"%>
+  </div>
+<% end %>

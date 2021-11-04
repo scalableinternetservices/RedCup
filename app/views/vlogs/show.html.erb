@@ -1,0 +1,41 @@
+<div class="card text-center", style="width: 80%;margin: AUTO;">
+  <div class="card-header">
+    <h2> <%= @vlog.title %> </h2>
+  </div>
+  <div class="card-body">
+    <p class="card-text", style="text-align:left;font-size: 16px;"><%= @vlog.content %></p>
+  </div>
+  <div class="card-footer text-muted">
+    <% if @vlog.user_id == 5 %>
+    <strong> Author: Anonymous </strong>
+    <% else %>
+    <strong> Author: <%= @vlog.user_id%></strong>
+    <%if @vlog.user.nil?%>
+            (Account Cancled)
+    <%end%>
+    <% end %>
+    <br/>
+    <strong>Created:</strong>
+    <%= @vlog.created_at %>
+    <br/>
+    <strong>Updated:</strong>
+    <%= @vlog.updated_at %>
+    <br/>
+    <br/>
+    <%= link_to 'Back', vlogs_path, class:"btn btn-primary btn-sm" %>
+    <% if user_signed_in? and @vlog.user == current_user %>
+    <%= link_to 'Edit', edit_vlog_path(@vlog), class:"btn btn-primary btn-sm"%> 
+    <%= link_to 'Delete', @vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger btn-sm" %>
+    <% end %>
+  </div>
+</div>
+<br/>
+<div class="card", style="width: 80%;margin: AUTO;">
+  <div class="card-body">
+  <h6><%=  @vlog.comments.count %> comments:</h6>
+
+  <%= render @vlog.comments %>
+  <%= render "comments/form", comment:@vlog.comments.build%>
+
+  </div>
+</div>

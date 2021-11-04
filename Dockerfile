@@ -11,3 +11,4 @@ COPY Gemfile Gemfile.lock /app/
 RUN bundle install
 
 CMD ["/bin/bash"]
+
