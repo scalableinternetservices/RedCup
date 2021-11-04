@@ -1,3 +1,4 @@
+<div style="width: 80%;margin: AUTO;">
 <h1>Vlogs</h1>
 
 <table class="table table-striped table-bordered table-hover">
@@ -6,19 +7,28 @@
       <th>Title</th>
       <th>Content</th>
       <th>User name</th>
-      <th colspan="3"></th>
+      <th>User Id</th>
+      <th colspan="1"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @vlogs.each do |vlog| %>
       <tr>
-        <td><%= vlog.title %></td>
+        <td><%= link_to vlog.title, vlog %></td>
         <td><%= vlog.content %></td>
         <td><%= vlog.user_name %></td>
-        <td><%= link_to 'Show', vlog %></td>
-        <td><%= link_to 'Edit', edit_vlog_path(vlog) %></td>
-        <td><%= link_to 'Destroy', vlog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if vlog.user_id == 5 %>
+          <td></td>
+        <%else%>
+          <td><%= vlog.user_id%></td>
+        <%end%>
+        <% if vlog.user == current_user %>
+          <td><%= link_to 'Delete', vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger" %> </td>
+        <% else %>
+          <td>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -27,3 +37,4 @@
 <br>
 
 <%= link_to 'New Vlog', new_vlog_path, class:"btn btn-primary"%>
+</div>

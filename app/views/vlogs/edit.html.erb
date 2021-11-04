@@ -4,3 +4,4 @@
 <br/>
 <%= link_to 'Show', @vlog, class:"btn btn-primary"%> 
 <%= link_to 'Back', vlogs_path, class:"btn btn-primary" %>
+<%= link_to 'Delete', @vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger" %>

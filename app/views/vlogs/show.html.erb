@@ -1,9 +1,10 @@
-<div class="card text-center">
+<div class="card text-center", style="width: 80%;margin: AUTO;">
   <div class="card-body">
     <h5 class="card-title"><%= @vlog.title %></h5>
     <p class="card-text"><%= @vlog.content %></p>
     <%= link_to 'Edit', edit_vlog_path(@vlog), class:"btn btn-primary"%> 
     <%= link_to 'Back', vlogs_path, class:"btn btn-primary" %>
+    <%= link_to 'Delete', @vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger" %>
   </div>
   <div class="card-footer text-muted">
     <strong>Created:</strong>
