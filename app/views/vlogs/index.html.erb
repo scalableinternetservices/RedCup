@@ -16,7 +16,11 @@
     <% @vlogs.each do |vlog| %>
       <tr>
         <td><%= link_to vlog.title, vlog %></td>
-        <td><%= vlog.content %></td>
+        <td><%= vlog.content[0,160] %>
+            <%if vlog.content.length > 160 %>
+             ...
+            <%end%>
+        </td>
         <td><%= vlog.user_name %></td>
         <% if vlog.user_id == 5 %>
           <td></td>
