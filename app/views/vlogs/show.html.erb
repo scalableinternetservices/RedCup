@@ -6,7 +6,11 @@
     <p class="card-text", style="text-align:left;font-size: 16px;"><%= @vlog.content %></p>
   </div>
   <div class="card-footer text-muted">
-    <strong> author id: <%= @vlog.user_id%></strong>
+    <% if @vlog.user_id == 5 %>
+    <strong> Author: Anonymous </strong>
+    <% else %>
+    <strong> Author: <%= @vlog.user_id%></strong>
+    <% end %>
     <br/>
     <strong>Created:</strong>
     <%= @vlog.created_at %>
