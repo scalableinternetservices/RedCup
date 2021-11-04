@@ -15,9 +15,11 @@
     <%= @vlog.updated_at %>
     <br/>
     <br/>
-    <%= link_to 'Edit', edit_vlog_path(@vlog), class:"btn btn-primary btn-sm"%> 
     <%= link_to 'Back', vlogs_path, class:"btn btn-primary btn-sm" %>
+    <% if @vlog.user == current_user %>
+    <%= link_to 'Edit', edit_vlog_path(@vlog), class:"btn btn-primary btn-sm"%> 
     <%= link_to 'Delete', @vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger btn-sm" %>
+    <% end %>
   </div>
 </div>
 <br/>
@@ -26,8 +28,7 @@
   <h6><%=  @vlog.comments.count %> comments:</h6>
 
   <%= render @vlog.comments %>
-  <%= render "comments/form", comment:@comment%>
-  <%= link_to "Add comment", new_vlog_comment_path(vlog_id: @vlog.id)%>
+  <%= render "comments/form", comment:@vlog.comments.build%>
 
   </div>
 </div>

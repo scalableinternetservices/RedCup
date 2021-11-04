@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_04_025100) do
+ActiveRecord::Schema.define(version: 2021_11_04_182938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,6 @@ ActiveRecord::Schema.define(version: 2021_11_04_025100) do
     t.index ["user_id"], name: "index_vlogs_on_user_id"
   end
 
-  add_foreign_key "comments", "users"
-  add_foreign_key "comments", "vlogs"
+  add_foreign_key "comments", "users", on_delete: :cascade
+  add_foreign_key "comments", "vlogs", on_delete: :cascade
 end

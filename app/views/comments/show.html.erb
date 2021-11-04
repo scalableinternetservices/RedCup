@@ -1,16 +1,28 @@
-<p id="notice"><%= notice %></p>
+<div class="card text-center", style="width: 80%;margin: AUTO;">
+  <div class="card-header">
+    <h2> Comment </h2>
+  </div>
+  <div class="card-body">
+    <p class="card-text", style="text-align:left;font-size: 16px;"><%= @comment.comment %></p>
+  </div>
+  <div class="card-footer text-muted">
+    <strong> author id: <%= @comment.user_id%></strong>
+    <br/>
+    <strong>Created:</strong>
+    <%= @comment.created_at %>
+    <br/>
+    <strong>Updated:</strong>
+    <%= @comment.updated_at %>
+    <br/>
+    <br/>
+    <strong>
+    <%= link_to "Edit", edit_vlog_comment_path(@comment.vlog, @comment), class:"btn btn-outline-info btn-sm" %>
+    <%= link_to 'Delete Comment', [@comment.vlog, @comment], method: :delete, data: { confirm: 'Are you sure?'}, class:'btn btn-outline-danger btn-sm'%>
+      </strong>
+  </div>
+</div>
+<br/>
 
-<p>
-  <strong>Comment:</strong>
-  <%= @comment.comment %>
-</p>
-
-<p>
-  <strong>Vlog:</strong>
-  <%= @comment.vlog_id %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @comment.user_id %>
-</p>
+  <div style="width: 80%;margin: AUTO;">
+  <%= link_to 'Back To Vlog', @comment.vlog%>
+  </div>  

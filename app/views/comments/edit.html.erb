@@ -1,31 +1,37 @@
-<h1>Editing Comment</h1>
+<div class="card" style="width: 80%;margin: AUTO;">
+  <div class="card-body">
+    <h1>Editing Comment</h1>
 
-<%= form_for([@vlog, @comment]) do |form| %>
+    <%= form_for([@vlog, @comment]) do |form| %>
 
-  <div class="field form-group">
-    <%= form.label :"Add New Comment" %>
-    <%= form.text_area :comment, class:"form-control" %>
-  </div>
+      <div class="field form-group">
+        <%= form.label :"Add New Comment" %>
+        <%= form.text_area :comment, class:"form-control" %>
+      </div>
 
-  <div class="field form-group">
-    <%= form.text_field :vlog_id, class:"form-control", type: :hidden%>
-  </div>
+      <div class="field form-group">
+        <%= form.text_field :vlog_id, class:"form-control", type: :hidden%>
+      </div>
 
-  <% if user_signed_in?%>
-    <div class="field form-group">
-      <%= form.text_field :user_id, class:"form-control", value:current_user.id, type: :hidden%>
-    </div>
-  <%else%>
-    <div class="field form-group">
-      <%= form.text_field :user_id, class:"form-control", value:5, type: :hidden%>
-    </div>
-  <%end%>
-
-  <div class="actions">
-    <%= form.submit class:"btn btn-primary"%>
-    <%= link_to 'Delete Comment', [@comment.vlog, @comment], method: :delete, data: { confirm: 'Are you sure?'}, class:'btn btn-danger'%>
-    <br/>
-    <br/>
-    <%= link_to 'Back', @vlog%>
-  </div>
-<% end %>
+      <% if user_signed_in?%>
+        <div class="field form-group">
+          <%= form.text_field :user_id, class:"form-control", value:current_user.id, type: :hidden%>
+        </div>
+      <%else%>
+        <div class="field form-group">
+          <%= form.text_field :user_id, class:"form-control", value:5, type: :hidden%>
+        </div>
+      <%end%>
+      <br/>
+      <div class="actions">
+        <%= form.submit class:"btn btn-primary"%>
+        <%= link_to 'Delete Comment', [@comment.vlog, @comment], method: :delete, data: { confirm: 'Are you sure?'}, class:'btn btn-danger'%>
+        <br/>
+      </div>
+    <% end %>
+ </div>
+</div>
+<br/>
+<div style="width: 80%;margin: AUTO;">
+  <%= link_to 'Back To Vlog', vlog_comment_path%>
+</div>

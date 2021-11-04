@@ -11,10 +11,12 @@ commented:
     <br/>
    </div>
    <div class="card-footer text-muted">
-    <strong>
-    <%= link_to "Edit", edit_vlog_comment_path(comment.vlog, comment), class:"btn btn-outline-info btn-sm" %>
-    <%= link_to 'Delete Comment', [comment.vlog, comment], method: :delete, data: { confirm: 'Are you sure?'}, class:'btn btn-outline-danger btn-sm'%>
-    </strong>
+    <% if comment.user == current_user %>
+      <strong>
+      <%= link_to "Edit", edit_vlog_comment_path(comment.vlog, comment), class:"btn btn-outline-info btn-sm" %>
+      <%= link_to 'Delete Comment', [comment.vlog, comment], method: :delete, data: { confirm: 'Are you sure?'}, class:'btn btn-outline-danger btn-sm'%>
+      </strong>
+    <% end %>
 	</div>
 </div>
 <br/>
