@@ -20,7 +20,7 @@
     <br/>
     <br/>
     <%= link_to 'Back', vlogs_path, class:"btn btn-primary btn-sm" %>
-    <% if @vlog.user == current_user %>
+    <% if user_signed_in? and @vlog.user == current_user %>
     <%= link_to 'Edit', edit_vlog_path(@vlog), class:"btn btn-primary btn-sm"%> 
     <%= link_to 'Delete', @vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger btn-sm" %>
     <% end %>
