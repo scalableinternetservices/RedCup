@@ -25,17 +25,24 @@
   <tbody>
     <% @vlogs.each do |vlog| %>
       <tr>
-        <td><%= link_to vlog.title, vlog %></td>
+        <td><%= link_to vlog.title, vlog, style:"text-decoration: none;" %></td>
+
         <td><%= vlog.content[0,100] %>
             <%if vlog.content.length > 100 %>
              ...
             <%end%>
         </td>
+
         <td><%= vlog.user_name %></td>
+
         <% if vlog.user_id == 5 %>
           <td> Anonymous</td>
         <%else%>
-          <td><%= vlog.user_id%></td>
+          <td><%= vlog.user_id%>
+          <%if vlog.user.nil?%>
+            (Account Cancled)
+          <%end%>
+          </td>
         <%end%>
         <% if user_signed_in? and vlog.user == current_user%>
           <td><%= link_to 'Delete', vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger" %> </td>

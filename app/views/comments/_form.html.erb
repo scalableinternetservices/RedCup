@@ -6,16 +6,16 @@
   </div>
 
   <div class="field form-group">
-    <%= form.text_field :vlog_id, class:"form-control", type: :hidden%>
+    <%= form.number_field :vlog_id, class:"form-control", type: :hidden%>
   </div>
 
   <% if user_signed_in?%>
     <div class="field form-group">
-      <%= form.text_field :user_id, class:"form-control", value:current_user.id, type: :hidden%>
+      <%= form.number_field :user_id, class:"form-control", value:current_user.id, type: :hidden%>
     </div>
   <%else%>
     <div class="field form-group">
-      <%= form.text_field :user_id, class:"form-control", value:5, type: :hidden%>
+      <%= form.number_field :user_id, class:"form-control", value:5, type: :hidden%>
     </div>
   <%end%>
   <br/>

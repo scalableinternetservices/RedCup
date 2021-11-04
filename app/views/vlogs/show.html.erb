@@ -10,6 +10,9 @@
     <strong> Author: Anonymous </strong>
     <% else %>
     <strong> Author: <%= @vlog.user_id%></strong>
+    <%if @vlog.user.nil?%>
+            (Account Cancled)
+    <%end%>
     <% end %>
     <br/>
     <strong>Created:</strong>
