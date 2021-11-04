@@ -21,7 +21,7 @@
   <br/>
   <% if user_signed_in? %>
     <div class="field form-group">
-      <%= form.text_field :user_name, class:"form-control", placeholder:"Publisher", value:current_user.email.split('@',0)[0] +"_" +  current_user.id.to_s%>
+      <%= form.text_field :user_name, class:"form-control", placeholder:"Publisher", value:current_user.email.split('@',0)[0] +"_" +  current_user.id.to_s, type: :hidden%>
     </div>
   
     <div class="field form-group">

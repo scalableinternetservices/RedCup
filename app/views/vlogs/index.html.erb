@@ -9,6 +9,7 @@
         <th>Content</th>
         <th>User name</th>
         <th>User Id</th>
+        <th>Latest Update</th>
         <th colspan="1"></th>
       </tr>
     </thead>
@@ -44,6 +45,9 @@
           <%end%>
           </td>
         <%end%>
+        
+        <td><%= vlog.updated_at %></td>
+
         <% if user_signed_in? and vlog.user == current_user%>
           <td><%= link_to 'Delete', vlog, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger" %> </td>
         <%elsif user_signed_in? %>
