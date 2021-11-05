@@ -1,11 +1,12 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: [:new, :create, :show]
+  before_action :authenticate_user!, except: [:index,:new, :create, :show]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.all
+    #@comments = Comment.all
+    @comments = Comment.find_by(vlog_id: params[:vlog_id])
   end
 
   # GET /comments/1 or /comments/1.json
