@@ -5,8 +5,8 @@ class CommentsController < ApplicationController
 
   # GET /comments or /comments.json
   def index
-    #@comments = Comment.all
-    @comments = Comment.find_by(vlog_id: params[:vlog_id])
+    @comments = Comment.all
+    #@comments = Comment.find_by(vlog_id: params[:vlog_id])
   end
 
   # GET /comments/1 or /comments/1.json
