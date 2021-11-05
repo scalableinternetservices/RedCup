@@ -35,9 +35,12 @@
   <h6><%=  @vlog.comments.count %> comments:</h6>
 
   <%#<%= render vlog_comments_path(@vlog.id) %>
-  <%= render @vlog.comments %>
+  <div class="flickr_pagination">
+  <%= will_paginate @comments, renderer: BootstrapPagination::Rails %>
+  </div>
+  <%= render @comments %>
   <%#<%= will_paginate @vlog.comments, renderer: BootstrapPagination::Rails %>
-  <%= render "comments/form", comment:@vlog.comments.build%>
+  <%= render "comments/form"%>
 
   </div>
 </div>
