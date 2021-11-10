@@ -13,7 +13,7 @@ class VlogsController < ApplicationController
   # GET /vlogs/1 or /vlogs/1.json
   def show
     @vlog = Vlog.find_by(id: params[:id])
-    @comments = @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC')
+    @vlog_comments = @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC')
   end
 
   # GET /vlogs/new
