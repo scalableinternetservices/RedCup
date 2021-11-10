@@ -30,14 +30,19 @@
   </div>
 </div>
 <br/>
+
 <div class="card", style="width: 80%;margin: AUTO;">
   <div class="card-body">
-  <h6><%=  @vlog.comments.count %> comments:</h6>
 
+  <%= render "comments/form"%>
+  <br/>
   <%#<%= render vlog_comments_path(@vlog.id) %>
-  <%= render @vlog.comments %>
+  <strong><%=  @vlog.comments.count %> comments:</strong>
+  <div class="apple_pagination bg-white border-white">
+  <%= will_paginate @comments%>
+  </div>
+  <%= render @comments %>
   <%#<%= will_paginate @vlog.comments, renderer: BootstrapPagination::Rails %>
-  <%= render "comments/form", comment:@vlog.comments.build%>
 
   </div>
 </div>
