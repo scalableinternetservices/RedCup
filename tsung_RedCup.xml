@@ -22,6 +22,18 @@
     <arrivalphase phase="4" duration="5" unit="second">
       <users arrivalrate="8" unit="second"></users>
     </arrivalphase>
+    <arrivalphase phase="5" duration="5" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="5" unit="second">
+      <users arrivalrate="32" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="7" duration="5" unit="second">
+      <users arrivalrate="64" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="8" duration="5" unit="second">
+      <users arrivalrate="128" unit="second"></users>
+    </arrivalphase>
   </load>
 
   <options>
@@ -32,6 +44,8 @@
   <sessions>
     <session name="example" type="ts_http" weight="1">
       <request><http method="GET" url="/"></http></request>
+      <request><http method="GET" url="/home/about/"></http></request>
+      <request><http method="GET" url="/vlogs/"></http></request>
     </session>
   </sessions>
 </tsung>
