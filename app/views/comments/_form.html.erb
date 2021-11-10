@@ -1,8 +1,10 @@
 <%= form_for([@vlog, @vlog.comments.build]) do |form| %>
 
   <div class="field form-group">
-    <%= form.label :"Add New Comment" %>
-    <%= form.text_area :comment, class:"form-control" %>
+    <div class="actions">
+    <%= form.submit class:"btn btn-primary btn-sm"%>
+    </div>
+    <%= form.text_area :comment, class:"form-control", placeholder:"New Comment" %>
   </div>
 
   <div class="field form-group">
@@ -18,8 +20,4 @@
       <%= form.number_field :user_id, class:"form-control", value:5, type: :hidden%>
     </div>
   <%end%>
-  <br/>
-  <div class="actions">
-    <%= form.submit class:"btn btn-primary"%>
-  </div>
 <% end %>

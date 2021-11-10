@@ -7,7 +7,7 @@ class VlogsController < ApplicationController
   def index
     #@vlogs = Vlog.all
     #add pagination
-    @vlogs = Vlog.paginate(page: params[:page], per_page: 3).order('created_at, title')
+    @vlogs = Vlog.paginate(page: params[:page], per_page: 3).order('updated_at DESC')
   end
 
   # GET /vlogs/1 or /vlogs/1.json
