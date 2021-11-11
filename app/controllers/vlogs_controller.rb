@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class VlogsController < ApplicationController
   before_action :set_vlog, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show, :new, :create]
@@ -44,7 +46,7 @@ class VlogsController < ApplicationController
     else
       @vlog = Vlog.new(vlog_params)
     end
-
+    @vlog.file_uuid, @vlog.file_type = handle_uploaded_file(params)
     respond_to do |format|
       if @vlog.save
         format.html { redirect_to @vlog, notice: "Vlog was successfully created." }
@@ -58,6 +60,7 @@ class VlogsController < ApplicationController
 
   # PATCH/PUT /vlogs/1 or /vlogs/1.json
   def update
+    params.require(:vlog)[:file_uuid], params.require(:vlog)[:file_type] = handle_uploaded_file(params)
     respond_to do |format|
       if @vlog.update(vlog_params)
         format.html { redirect_to @vlog, notice: "Vlog was successfully updated." }
@@ -86,6 +89,28 @@ class VlogsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vlog_params
-      params.require(:vlog).permit(:title, :content, :user_name, :user_id)
+      params.require(:vlog).permit(:title, :content, :user_name, :user_id, :file_uuid, :file_type)
     end
+
+    def handle_uploaded_file(params)
+      uploaded_file = params.require(:vlog)[:file]
+      if uploaded_file == nil
+        return ""
+      end
+      uploaded_file_id = SecureRandom.uuid
+      path = Rails.root.join('public', 'uploads', uploaded_file_id)
+      File.open(path, 'wb') do |file|
+        file.write(uploaded_file.read)
+      end
+      require "pp"
+      file_type = IO.popen(["file", "--brief", "--mime-type", path.to_s], in: :close, err: :close).read.chomp
+      if /image/.match(file_type) != nil
+        file_type = "image"
+      end
+      if /video/.match(file_type) != nil
+        file_type = "video"
+      end
+      return uploaded_file_id, file_type
+    end
+    
 end
