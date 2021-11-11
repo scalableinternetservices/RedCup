@@ -1,0 +1,8 @@
+<%= form_for([@vlog, @vlog.likes.build]) do |form| %>
+
+  <div class="field form-group">
+    <div class="actions">
+    <%= form.submit value:"Like ♥️", class:"btn btn-primary btn-sm" %>
+    </div>
+  </div>
+<% end %>

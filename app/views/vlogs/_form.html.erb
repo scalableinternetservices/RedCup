@@ -18,6 +18,9 @@
   <div class="field form-group">
     <%= form.text_area :content, class:"form-control",style:"min-height: 500px;line-height: 20px;", placeholder:"Content"%>
   </div>
+  <div class="field form-group">
+      <%= form.file_field :file, class:"form-control" %>
+    </div>
   <br/>
   <% if user_signed_in? %>
     <div class="field form-group">
@@ -35,6 +38,7 @@
     <div class="field form-group">
       <%= form.number_field :user_id, id: :vlog_user_id, class:"form-control", placeholder:"User Id", value:5, type: :hidden%>
     </div>
+    
   <% end %>
   
   <div class="actions">
