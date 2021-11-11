@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   
   resources :vlogs do
    resources :comments
+   resources :likes
   end
   get 'home/index'
   get 'home/about'

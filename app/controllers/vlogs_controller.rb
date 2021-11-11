@@ -14,6 +14,7 @@ class VlogsController < ApplicationController
   def show
     @vlog = Vlog.find_by(id: params[:id])
     @vlog_comments = @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC')
+    @vlog_likes = @vlog.likes.count()
   end
 
   # GET /vlogs/new
