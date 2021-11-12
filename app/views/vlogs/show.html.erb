@@ -4,6 +4,13 @@
   </div>
   <div class="card-body">
     <p class="card-text", style="text-align:left;font-size: 16px;"><%= @vlog.content %></p>
+    <% if @vlog.file_type == "video" %>
+      <%= video_tag "/uploads/#{@vlog.file_uuid}" %>
+    <% elsif @vlog.file_type == "image" %>
+      <%= image_tag "/uploads/#{@vlog.file_uuid}" %>
+    <% else %>
+      <%= link_to 'Download', "/uploads/#{@vlog.file_uuid}", class:"btn btn-primary btn-sm" %>
+    <%end%>
   </div>
   <div class="card-footer text-muted">
     <% if @vlog.user_id == 1 %>
@@ -33,15 +40,18 @@
 
 <div class="card", style="width: 80%;margin: AUTO;">
   <div class="card-body">
-
+  <%= render "likes/new" %>
+  <br>
   <%= render "comments/form"%>
   <br/>
   <%#<%= render vlog_comments_path(@vlog.id) %>
+  <strong><%=  @vlog_likes %> likes ♥️ / </strong>
   <strong><%=  @vlog_comments.count %> comments:</strong>
   <div class="apple_pagination bg-white border-white">
     <%= will_paginate @vlog_comments%>
   </div>
   <%= render @vlog_comments %>
+
   <%#<%= will_paginate @vlog.comments, renderer: BootstrapPagination::Rails %>
 
   </div>
