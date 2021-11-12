@@ -6,7 +6,7 @@
   </clients>
 
   <servers>
-    <server host="annatar.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="shouc.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
   <load>
@@ -31,9 +31,6 @@
     <arrivalphase phase="7" duration="5" unit="second">
       <users arrivalrate="64" unit="second"></users>
     </arrivalphase>
-    <arrivalphase phase="8" duration="5" unit="second">
-      <users arrivalrate="128" unit="second"></users>
-    </arrivalphase>
   </load>
 
   <options>
@@ -43,9 +40,45 @@
 
   <sessions>
     <session name="example" type="ts_http" weight="1">
-      <request><http method="GET" url="/"></http></request>
-      <request><http method="GET" url="/home/about/"></http></request>
-      <request><http method="GET" url="/vlogs/"></http></request>
+      <setdynvars sourcetype="random_number" start="3" end="42">
+        <var name="rndint" />
+      </setdynvars>
+      <setdynvars sourcetype="random_string" length="13">
+        <var name="rndstring1" />
+      </setdynvars>
+      
+      <request>
+        <http method="GET" url="/"></http>
+      </request>
+      <request>
+        <http method="GET" url="/home/about/"></http>
+      </request>
+      <request>
+        <http method="GET" url="/vlogs/"></http>
+      </request>
+      <request>
+	<http method="GET" url="/vlogs/new/"></http>
+      </request>
+      <request>
+	<http method="GET" url="/users/sign_up/"></http>
+      </request>
+      <request>
+	<http method="GET" url="/users/sign_in/"></http>
+      </request>
+
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+	<http url="/users/sign_up/" method="GET" version="1.1"></http>
+      </request>
+      <request subst="true">
+        <http content_type="application/x-www-form-urlencoded"
+	      contents="authenticity_token=%%_authenticity_token%%&amp;user%5Bemail%5D=annatar%40dsao&amp;user%5Bpassword%5D=123456&amp;user%5Bpassword_confirmation%5D=123456&amp;commit=Sign%20up"
+	      method="POST"
+	      url="/users/"
+	      version="1.1">
+        </http>
+      </request>
+          
     </session>
   </sessions>
 </tsung>
