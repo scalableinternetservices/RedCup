@@ -26,7 +26,7 @@ end
 
 for i in 1..30 do
 	Comment.create(
-		comment: Faker::Lorem.sentence(word_count: 10, supplemental: false, random_words_to_add: 10),
+		comment: Faker::Lorem.sentence(word_count: 20, supplemental: false, random_words_to_add: 10),
     	vlog_id: rand(1..6),
     	user_id: rand(1..5),
 		)
