@@ -7,7 +7,7 @@ class VlogsController < ApplicationController
 
   # GET /vlogs or /vlogs.json
   def index
-    @vlogs = Vlog.all
+    @vlogs = Vlog.all.order('updated_at DESC')
     #add pagination
     #@vlogs = Vlog.paginate(page: params[:page], per_page: 3).order('updated_at DESC')
   end
@@ -15,7 +15,7 @@ class VlogsController < ApplicationController
   # GET /vlogs/1 or /vlogs/1.json
   def show
     @vlog = Vlog.find_by(id: params[:id])
-    @vlog_comments = @vlog.comments#.paginate(page: params[:page], per_page: 3).order('created_at DESC')
+    @vlog_comments = @vlog.comments.order('updated_at DESC')#.paginate(page: params[:page], per_page: 3).order('created_at DESC')
     @vlog_likes = @vlog.likes.count()
   end
 

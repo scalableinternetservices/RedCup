@@ -8,33 +8,45 @@
 require 'faker'
 
 for i in 1..5 do 
+	date = Faker::Date.between(from: '2010-09-23', to: '2021-09-25')
     user=User.new(
     email: Faker::Internet.unique.email,
-    password: Faker::Internet.password
+    password: Faker::Internet.password,
+    created_at: date,
+	updated_at: date
   )
   user.save!
 end
 
 for i in 1..10 do
+	date = Faker::Date.between(from: '2010-09-23', to: '2021-09-25')
 	Vlog.create(
 		title: Faker::Lorem.sentence(word_count: 3, supplemental: true, random_words_to_add: 4),
 		content: Faker::Lorem.paragraph(sentence_count: 6, supplemental: true, random_sentences_to_add: 4),
+		created_at: date,
+		updated_at: date,
     	user_id: rand(1..5)
     )
   
 end
 
 for i in 1..30 do
+	date = Faker::Date.between(from: '2010-09-23', to: '2021-09-25')
 	Comment.create(
 		comment: Faker::Lorem.sentence(word_count: 20, supplemental: false, random_words_to_add: 10),
     	vlog_id: rand(1..6),
     	user_id: rand(1..5),
+    	created_at: date,
+		updated_at: date,
 		)
 end
 
 for i in 1..30 do
+	date = Faker::Date.between(from: '2010-09-23', to: '2021-09-25')
 	Like.create(
     	vlog_id: rand(1..10),
     	user_id: rand(1..5),
+    	created_at: date,
+		updated_at: date,
 		)
 end
