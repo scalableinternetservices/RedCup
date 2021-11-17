@@ -49,9 +49,9 @@
   <strong><%=  @vlog_comments.count %> comments:</strong>
   <br/>
   <br/>
-  <%#<div class="apple_pagination bg-white border-white">%>
-  <%#  <%= will_paginate @vlog_comments%>
-  <%#</div>%>
+  <div class="apple_pagination bg-white border-white">
+    <%= will_paginate @vlog_comments%>
+  </div>
   <%= render @vlog_comments %>
 
   <%#<%= will_paginate @vlog.comments, renderer: BootstrapPagination::Rails %>
