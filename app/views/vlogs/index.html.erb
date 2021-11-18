@@ -29,8 +29,8 @@
                   <%end%>
             <%end%>
             / <%= vlog.updated_at %> / </td>
-            <strong><%= vlog.likes.count %> likes ♥️ / </strong>
-            <strong><%= vlog.comments.count %> comments</strong>
+            <strong><%= vlog.likes.length() %> likes ♥️ / </strong>
+            <strong><%= vlog.comments.length() %> comments</strong>
           </p>
         
     </div>
