@@ -6,7 +6,7 @@
   </clients>
 
   <servers>
-    <server host="shouc.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="annatar.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
   <load>
@@ -25,12 +25,6 @@
     <arrivalphase phase="5" duration="5" unit="second">
       <users arrivalrate="16" unit="second"></users>
     </arrivalphase>
-    <arrivalphase phase="6" duration="5" unit="second">
-      <users arrivalrate="32" unit="second"></users>
-    </arrivalphase>
-    <arrivalphase phase="7" duration="5" unit="second">
-      <users arrivalrate="64" unit="second"></users>
-    </arrivalphase>
   </load>
 
   <options>
@@ -43,10 +37,7 @@
       <setdynvars sourcetype="random_number" start="3" end="42">
         <var name="rndint" />
       </setdynvars>
-      <setdynvars sourcetype="random_string" length="13">
-        <var name="rndstring1" />
-      </setdynvars>
-      
+
       <request>
         <http method="GET" url="/"></http>
       </request>
@@ -57,28 +48,69 @@
         <http method="GET" url="/vlogs/"></http>
       </request>
       <request>
-	<http method="GET" url="/vlogs/new/"></http>
+        <http method="GET" url="/vlogs/new/"></http>
       </request>
       <request>
-	<http method="GET" url="/users/sign_up/"></http>
+        <http method="GET" url="/users/sign_up/"></http>
       </request>
       <request>
-	<http method="GET" url="/users/sign_in/"></http>
+        <http method="GET" url="/users/sign_in/"></http>
       </request>
 
       <request>
         <dyn_variable name="authenticity_token"></dyn_variable>
-	<http url="/users/sign_up/" method="GET" version="1.1"></http>
+        <http url="/users/sign_up/" method="GET" version="1.1"></http>
+      </request>
+      <setdynvars sourcetype="random_string" length="8">
+        <var name="rndstring1" />
+      </setdynvars>
+      <request subst="true">
+        <http content_type="application/x-www-form-urlencoded"
+              contents="authenticity_token=%%_authenticity_token%%&amp;user%5Bemail%5D=%%_rndstring1%%%40mordor.com&amp;user%5Bpassword%5D=123456&amp;user%5Bpassword_confirmation%5D=123456&amp;commit=Sign%20up"
+              method="POST"
+              url="/users/"
+              version="1.1">
+        </http>
+      </request>
+ 
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url="/vlogs/new/" method="GET" version="1.1"></http>
       </request>
       <request subst="true">
         <http content_type="application/x-www-form-urlencoded"
-	      contents="authenticity_token=%%_authenticity_token%%&amp;user%5Bemail%5D=annatar%40dsao&amp;user%5Bpassword%5D=123456&amp;user%5Bpassword_confirmation%5D=123456&amp;commit=Sign%20up"
-	      method="POST"
-	      url="/users/"
-	      version="1.1">
+              contents="authenticity_token=%%_authenticity_token%%&amp;vlog%5Btitle%5D=HelloWorld&amp;vlog%5Bcontent%5D=123456&amp;vlog%5Buser_name%5D=Anonymous&amp;vlog%5Buser_id%5D=5&amp;commit=Create%20Vlog"
+              method="POST"
+              url="/vlogs/"
+              version="1.1">
         </http>
       </request>
-          
+      <!-- 
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url="/vlogs/10416/" method="GET" version="1.1"></http>
+      </request>
+      <request subst="true">
+        <http content_type="application/x-www-form-urlencoded"
+              contents="authenticity_token=%%_authenticity_token%%&amp;commit=Create%20Comment&amp;comment%5Bcomment%5D=123&amp;comment%5Bvlog_id%5D=10416&amp;comment%5Buser_id%5D=5"
+              method="POST"
+              url="/vlogs/10416/comments/"
+              version="1.1">
+        </http>
+      </request>
+      -->
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url="/vlogs/1/" method="GET" version="1.1"></http>
+      </request>
+      <request subst="true">
+        <http content_type="application/x-www-form-urlencoded"
+              contents="authenticity_token=%%_authenticity_token%%&amp;commit=Like%20%E2%99%A5%EF%B8%8F"
+              method="POST"
+              url="/vlogs/1/likes/"
+              version="1.1">
+        </http>
+      </request>
     </session>
   </sessions>
 </tsung>
