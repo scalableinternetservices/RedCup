@@ -9,22 +9,26 @@ class LikesController < ApplicationController
     @vlog = Vlog.find_by(id: params[:vlog_id])
     @like = current_user.likes.build()
     @like.vlog = @vlog
-    existed = exist_user_in_liked(current_user, @vlog)
+    # existed = exist_user_in_liked(current_user, @vlog)
     respond_to do |format|
-      if existed != nil
-        existed.destroy
+      begin
+        if @vlog.user == current_user 
+          format.html { redirect_to @vlog, notice: "Nope. You cannot like your vlog!" }
+          format.json { render json: "Liked Yourself", status: :unprocessable_entity }
+        elsif @like.save
+          format.html { redirect_to @vlog, notice: "Vlog liked." }
+          format.json { render :show, status: :created, location: @vlog }
+        else
+          format.html { redirect_to @vlog, notice: "Something wrong." }
+          format.json { render json: @vlog.errors, status: :unprocessable_entity }
+        end
+      rescue ActiveRecord::RecordNotUnique
+        @vlog.likes.find_by(user: current_user).destroy
         format.html { redirect_to @vlog, notice: "Vlog unliked." }
         format.json { render :show, status: :destroyed, location: @vlog }
-      elsif @vlog.user == current_user 
-        format.html { redirect_to @vlog, notice: "Nope. You cannot like your vlog!" }
-        format.json { render json: "Liked Yourself", status: :unprocessable_entity }
-      elsif @like.save
-        format.html { redirect_to @vlog, notice: "Vlog liked." }
-        format.json { render :show, status: :created, location: @vlog }
-      else
-        format.html { redirect_to @vlog, notice: "Something wrong." }
-        format.json { render json: @vlog.errors, status: :unprocessable_entity }
       end
+      
+      
     end
   end
   private
