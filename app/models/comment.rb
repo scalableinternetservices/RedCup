@@ -1,4 +1,5 @@
 class Comment < ApplicationRecord
   belongs_to :vlog
   belongs_to :user
+  validates :comment, presence: true
 end
