@@ -1,5 +1,7 @@
 require 'securerandom'
 
+@expire_val = 1.seconds
+
 class VlogsController < ApplicationController
   before_action :set_vlog, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show, :new, :create]
