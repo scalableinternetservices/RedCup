@@ -34,10 +34,6 @@
 
   <sessions>
     <session name="example" type="ts_http" weight="1">
-      <setdynvars sourcetype="random_number" start="3" end="42">
-        <var name="rndint" />
-      </setdynvars>
-
       <request>
         <http method="GET" url="/"></http>
       </request>
@@ -114,13 +110,19 @@
     </session>
     
     
-    
     <session name="guest" type="ts_http" weight="30">
       <request>
         <http method="GET" url="/"></http>
       </request>
       <request>
         <http method="GET" url="/vlogs/"></http>
+      </request>
+      <request>
+	<http method="GET" url="/vlogs/1/"></http>
+      </request>
+      <thinktime value="5" random="true"></thinktime>
+      <request>
+	<http method="GET" url="/vlogs/2/"></http>
       </request>
     </session>
     
@@ -150,6 +152,9 @@
       <request>
         <http method="GET" url="/vlogs/"></http>
       </request>
+      <request>
+        <http method="GET" url="/vlogs?page=2"></http>
+      </request>
     </session>
     
     
@@ -162,11 +167,11 @@
         <http url="/users/sign_up/" method="GET" version="1.1"></http>
       </request>
       <setdynvars sourcetype="random_string" length="8">
-        <var name="rndstring1" />
+        <var name="rndstring" />
       </setdynvars>
       <request subst="true">
         <http content_type="application/x-www-form-urlencoded"
-              contents="authenticity_token=%%_authenticity_token%%&amp;user%5Bemail%5D=%%_rndstring1%%%40mordor.com&amp;user%5Bpassword%5D=123456&amp;user%5Bpassword_confirmation%5D=123456&amp;commit=Sign%20up"
+              contents="authenticity_token=%%_authenticity_token%%&amp;user%5Bemail%5D=%%_rndstring%%%40mordor.com&amp;user%5Bpassword%5D=123456&amp;user%5Bpassword_confirmation%5D=123456&amp;commit=Sign%20up"
               method="POST"
               url="/users/"
               version="1.1">
@@ -186,6 +191,9 @@
         </http>
       </request>
       
+      <setdynvars sourcetype="random_number" start="1" end="100000">
+        <var name="rndint" />
+      </setdynvars>
       <request>
         <dyn_variable name="authenticity_token"></dyn_variable>
         <http url="/vlogs/1/" method="GET" version="1.1"></http>
