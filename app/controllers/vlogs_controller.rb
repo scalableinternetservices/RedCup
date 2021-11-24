@@ -1,5 +1,7 @@
 require 'securerandom'
 
+@expire_val = 1.seconds
+
 class VlogsController < ApplicationController
   before_action :set_vlog, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show, :new, :create]
@@ -9,8 +11,10 @@ class VlogsController < ApplicationController
   def index
 
     #@vlogs = Vlog.all.order('updated_at DESC')
-    #add pagination
-    @vlogs = Vlog.paginate(page: params[:page], per_page: 3).order('updated_at DESC')
+    @vlogs = Rails.cache.fetch("vlog_select", expires_in: expire_val) do
+          #add pagination
+      Vlog.paginate(page: params[:page], per_page: 3).order('updated_at DESC')
+    end
     #to combine sql, comment out one line above
     #@vlogs = Vlog.includes(:user, :comments, :likes).paginate(page: 
     #  params[:page], per_page: 3).order('updated_at DESC')
@@ -18,7 +22,9 @@ class VlogsController < ApplicationController
 
   # GET /vlogs/1 or /vlogs/1.json
   def show
-    @vlog = Vlog.includes(:likes).find_by(id: params[:id])
+    @vlog = Rails.cache.fetch("like_included", expires_in: expire_val) do
+      Vlog.includes(:likes).find_by(id: params[:id])
+    end
     
     @vlog_comments = @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC')
     #to combine sql, comment out on one line above
