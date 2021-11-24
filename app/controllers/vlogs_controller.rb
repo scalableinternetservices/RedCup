@@ -101,24 +101,7 @@ class VlogsController < ApplicationController
     end
 
     def handle_uploaded_file(params)
-      uploaded_file = params.require(:vlog)[:file]
-      if uploaded_file == nil
-        return ""
-      end
-      uploaded_file_id = SecureRandom.uuid
-      path = Rails.root.join('public', 'uploads', uploaded_file_id)
-      File.open(path, 'wb') do |file|
-        file.write(uploaded_file.read)
-      end
-      require "pp"
-      file_type = IO.popen(["file", "--brief", "--mime-type", path.to_s], in: :close, err: :close).read.chomp
-      if /image/.match(file_type) != nil
-        file_type = "image"
-      end
-      if /video/.match(file_type) != nil
-        file_type = "video"
-      end
-      return uploaded_file_id, file_type
+      return params["file"], "unkown"
     end
     
 end
