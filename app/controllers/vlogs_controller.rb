@@ -10,11 +10,14 @@ class VlogsController < ApplicationController
 
   # GET /vlogs or /vlogs.json
   def index
-
+    ##avoid duplicate cache
+    if params[:page].nil?
+        params[:page] = 1
+    end
     #@vlogs = Vlog.all.order('updated_at DESC')
-    @vlogs = Rails.cache.fetch("vlogs_page/{params[:page]}", expires_in: @expire_val) do
+    @vlogs = Rails.cache.fetch("vlogs_page/#{params[:page]}", expires_in: @expire_val) do
           #add pagination
-      Vlog.paginate(page: params[:page], per_page: 3).order('updated_at DESC').to_a
+      Vlog.includes(:user, :comments, :likes).paginate(page: params[:page], per_page: 3).order('updated_at DESC').to_a
     end
     #to combine sql, comment out one line above
     #@vlogs = Vlog.includes(:user, :comments, :likes).paginate(page: 
@@ -26,17 +29,21 @@ class VlogsController < ApplicationController
     #@vlog = Rails.cache.fetch("vlog/#{params[:id]}", expires_in: @expire_val) do
     #  Vlog.includes(:likes).find_by(id: params[:id])
     #end
+    ##avoid duplicate cache
+    if params[:page].nil?
+      params[:page] = 1
+    end
     @vlog_comments = Rails.cache.fetch("vlog_comments/#{params[:id]}/#{params[:page]}", expires_in: @expire_val) do
-      @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC').to_a
+      @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC').to_a
     end
     #to combine sql, comment out on one line above
     #@vlog_comments = @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC')
     
-    @vlog_likes = Rails.cache.fetch("vlog_likes/#{params[:id]}", expires_in: @expire_val) do
+    @vlog_likes = Rails.cache.fetch("vlog_likes_count/#{params[:id]}", expires_in: @expire_val) do
       @vlog.likes.length()
     end
 
-    @vlog_comments_count = Rails.cache.fetch("vlog_comments/#{params[:id]}", expires_in: @expire_val) do
+    @vlog_comments_count = Rails.cache.fetch("vlog_comments_count/#{params[:id]}", expires_in: @expire_val) do
       @vlog_comments.total_entries
     end
   end
@@ -108,7 +115,7 @@ class VlogsController < ApplicationController
     def set_vlog
       #@vlog = Vlog.find(params[:id])
       @vlog = Rails.cache.fetch("vlog/#{params[:id]}", expires_in: @expire_val) do
-            Vlog.includes(:likes).find_by(id: params[:id])
+            Vlog.includes(:likes, :user).find_by(id: params[:id])
       end
     end
 
