@@ -19,6 +19,8 @@ class VlogsController < ApplicationController
   # GET /vlogs/1 or /vlogs/1.json
   def show
     @vlog = Vlog.includes(:likes).find_by(id: params[:id])
+    @attachment = @vlog.file
+    @actype = @attachment.content_type
     
     @vlog_comments = @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC')
     #to combine sql, comment out on one line above
@@ -54,7 +56,7 @@ class VlogsController < ApplicationController
     else
       @vlog = Vlog.new(vlog_params)
     end
-    @vlog.file_uuid, @vlog.file_type = handle_uploaded_file(params)
+    # @vlog.file_uuid, @vlog.file_type = handle_uploaded_file(params)
     respond_to do |format|
       if @vlog.save
         format.html { redirect_to @vlog, notice: "Vlog was successfully created." }
@@ -68,7 +70,7 @@ class VlogsController < ApplicationController
 
   # PATCH/PUT /vlogs/1 or /vlogs/1.json
   def update
-    params.require(:vlog)[:file_uuid], params.require(:vlog)[:file_type] = handle_uploaded_file(params)
+    # params.require(:vlog)[:file_uuid], params.require(:vlog)[:file_type] = handle_uploaded_file(params)
     respond_to do |format|
       if @vlog.update(vlog_params)
         format.html { redirect_to @vlog, notice: "Vlog was successfully updated." }
@@ -97,11 +99,7 @@ class VlogsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vlog_params
-      params.require(:vlog).permit(:title, :content, :user_name, :user_id, :file_uuid, :file_type)
+      params.require(:vlog).permit(:title, :content, :user_name, :user_id, :file)
     end
 
-    def handle_uploaded_file(params)
-      return params["file"], "unkown"
-    end
-    
 end

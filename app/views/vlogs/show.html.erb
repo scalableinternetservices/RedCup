@@ -4,12 +4,12 @@
   </div>
   <div class="card-body">
     <p class="card-text", style="text-align:left;font-size: 16px;"><%= @vlog.content %></p>
-    <% if @vlog.file_type == "video" %>
-      <%= video_tag "/uploads/#{@vlog.file_uuid}" %>
-    <% elsif @vlog.file_type == "image" %>
-      <%= image_tag "/uploads/#{@vlog.file_uuid}" %>
+    <% if /video/.match @actype %>
+      <%= video_tag url_for(@attachment) %>
+    <% elsif /image/.match  @actype %>
+      <%= image_tag url_for(@attachment) %>
     <% else %>
-      <%= link_to 'Download', "/uploads/#{@vlog.file_uuid}", class:"btn btn-primary btn-sm" %>
+      <%= link_to 'Download', url_for(@attachment), class:"btn btn-primary btn-sm" %>
     <%end%>
   </div>
   <div class="card-footer text-muted">
