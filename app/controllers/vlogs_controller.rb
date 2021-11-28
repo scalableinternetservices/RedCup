@@ -102,9 +102,9 @@ class VlogsController < ApplicationController
       File.open(path, 'wb') do |file|
         file.write(uploaded_file.read)
       end
-      require "pp"
       file_type = IO.popen(["file", "--brief", "--mime-type", path.to_s], in: :close, err: :close).read.chomp
       if /image/.match(file_type) != nil
+        IO.popen("convert #{path.to_s} -gravity Southeast -draw \"text 0,0 'RedCup'\" #{path.to_s}", in: :close, err: :close).read.chomp
         file_type = "image"
       end
       if /video/.match(file_type) != nil
