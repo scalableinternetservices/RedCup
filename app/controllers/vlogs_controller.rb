@@ -10,19 +10,19 @@ class VlogsController < ApplicationController
 
     #@vlogs = Vlog.all.order('updated_at DESC')
     #add pagination
-    @vlogs = Vlog.paginate(page: params[:page], per_page: 3).order('updated_at DESC')
+    #@vlogs = Vlog.paginate(page: params[:page], per_page: 3).order('updated_at DESC')
     #to combine sql, comment out one line above
-    #@vlogs = Vlog.includes(:user, :comments, :likes).paginate(page: 
-    #  params[:page], per_page: 3).order('updated_at DESC')
+    @vlogs = Vlog.includes(:user, :comments, :likes).paginate(page: 
+      params[:page], per_page: 3).order('updated_at DESC')
   end
 
   # GET /vlogs/1 or /vlogs/1.json
   def show
-    @vlog = Vlog.includes(:likes).find_by(id: params[:id])
+    @vlog = Vlog.includes(:likes, :user).find_by(id: params[:id])
     
-    @vlog_comments = @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC')
+    #@vlog_comments = @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC')
     #to combine sql, comment out on one line above
-    #@vlog_comments = @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC')
+    @vlog_comments = @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC')
     
     @vlog_likes = @vlog.likes.length()
   end
