@@ -1,0 +1,16 @@
+name: eb deploy
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ec2.cs291.com
+        username: RedCup
+        key: ${{ secrets.KEY }}
+        port: 22
+        script: ./deploy.sh
