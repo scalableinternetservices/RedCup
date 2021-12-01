@@ -38,8 +38,8 @@ class VlogsController < ApplicationController
       @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC').to_a
     end
 
-    @attachment = @vlog.file
-    @actype = @attachment.content_type
+    @attachment = @vlog.file_uuid
+    @actype = @vlog.file_type
     
     #to combine sql, comment out on one line above
     #@vlog_comments = @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC')
@@ -126,7 +126,7 @@ class VlogsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vlog_params
-      params.require(:vlog).permit(:title, :content, :user_name, :user_id, :file)
+      params.require(:vlog).permit(:title, :content, :user_name, :user_id, :file_uuid, :file_type)
     end
 
 end

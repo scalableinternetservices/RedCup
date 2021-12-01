@@ -5,11 +5,11 @@
   <div class="card-body">
     <p class="card-text", style="text-align:left;font-size: 16px;"><%= @vlog.content %></p>
     <% if /video/.match @actype %>
-      <%= video_tag url_for(@attachment) %>
+      <%= video_tag @attachment %>
     <% elsif /image/.match  @actype %>
-      <%= image_tag @attachment.variant(gravity: "Southeast", pointsize: "30", fill: "#999", draw: "text 0,0 'RedCup'") %>
+      <%= image_tag @attachment %>
     <% else %>
-      <%= link_to 'Download', url_for(@attachment), class:"btn btn-primary btn-sm" %>
+      <%= link_to 'Download', @attachment, class:"btn btn-primary btn-sm" %>
     <%end%>
   </div>
   <div class="card-footer text-muted">

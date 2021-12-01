@@ -19,7 +19,8 @@
     <%= form.text_area :content, class:"form-control",style:"min-height: 500px;line-height: 20px;", placeholder:"Content"%>
   </div>
   <div class="field form-group">
-      <%= form.file_field :file, class:"form-control", direct_upload: true %>
+      <%= form.text_field :file_uuid, class:"form-control", placeholder:"S3 URL" %>
+      <%= form.text_field :file_type, class:"form-control", placeholder:"File Type" %>
     </div>
   <br/>
   <% if user_signed_in? %>
