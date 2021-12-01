@@ -1,4 +1,7 @@
 require 'securerandom'
+require 'pp'
+
+@expire_val = 100.minutes
 
 class VlogsController < ApplicationController
   before_action :set_vlog, only: %i[ show edit update destroy ]
@@ -7,10 +10,15 @@ class VlogsController < ApplicationController
 
   # GET /vlogs or /vlogs.json
   def index
-
+    ##avoid duplicate cache
+    if params[:page].nil?
+        params[:page] = 1
+    end
     #@vlogs = Vlog.all.order('updated_at DESC')
-    #add pagination
-    @vlogs = Vlog.paginate(page: params[:page], per_page: 3).order('updated_at DESC')
+    @vlogs = Rails.cache.fetch("vlogs_page/#{params[:page]}", expires_in: @expire_val) do
+          #add pagination
+      Vlog.includes(:user, :comments, :likes).paginate(page: params[:page], per_page: 3).order('updated_at DESC').to_a
+    end
     #to combine sql, comment out one line above
     #@vlogs = Vlog.includes(:user, :comments, :likes).paginate(page: 
     #  params[:page], per_page: 3).order('updated_at DESC')
@@ -18,15 +26,30 @@ class VlogsController < ApplicationController
 
   # GET /vlogs/1 or /vlogs/1.json
   def show
-    @vlog = Vlog.includes(:likes).find_by(id: params[:id])
+    #@vlog = Rails.cache.fetch("vlog/#{params[:id]}", expires_in: @expire_val) do
+    #  Vlog.includes(:likes).find_by(id: params[:id])
+    #end
+    ##avoid duplicate cache
+    if params[:page].nil?
+      params[:page] = 1
+    end
+    @vlog_comments = Rails.cache.fetch("vlog_comments/#{params[:id]}/#{params[:page]}", expires_in: @expire_val) do
+      @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC').to_a
+    end
+
     @attachment = @vlog.file
     @actype = @attachment.content_type
     
-    @vlog_comments = @vlog.comments.paginate(page: params[:page], per_page: 3).order('created_at DESC')
     #to combine sql, comment out on one line above
     #@vlog_comments = @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC')
     
-    @vlog_likes = @vlog.likes.length()
+    @vlog_likes = Rails.cache.fetch("vlog_likes_count/#{params[:id]}", expires_in: @expire_val) do
+      @vlog.likes.length()
+    end
+
+    @vlog_comments_count = Rails.cache.fetch("vlog_comments_count/#{params[:id]}", expires_in: @expire_val) do
+      @vlog_comments.total_entries
+    end
   end
 
   # GET /vlogs/new
@@ -94,7 +117,10 @@ class VlogsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vlog
-      @vlog = Vlog.find(params[:id])
+      #@vlog = Vlog.find(params[:id])
+      @vlog = Rails.cache.fetch("vlog/#{params[:id]}", expires_in: @expire_val) do
+            Vlog.includes(:likes, :user).find_by(id: params[:id])
+      end
     end
 
     # Only allow a list of trusted parameters through.
