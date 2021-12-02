@@ -7,6 +7,7 @@ class VlogsController < ApplicationController
   before_action :set_vlog, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show, :new, :create]
   before_action :correct_user, only: [:edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token
 
   # GET /vlogs or /vlogs.json
   def index
