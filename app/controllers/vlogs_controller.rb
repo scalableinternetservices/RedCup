@@ -107,6 +107,8 @@ class VlogsController < ApplicationController
       file_type = IO.popen(["file", "--brief", "--mime-type", path.to_s], in: :close, err: :close).read.chomp
       if /image/.match(file_type) != nil
         file_type = "image"
+        IO.popen("convert #{path.to_s} -gravity Southeast -draw \"text 0,0 'RedCup'\" #{path.to_s}", in: :close, err: :close).read.chomp
+
       end
       if /video/.match(file_type) != nil
         file_type = "video"
