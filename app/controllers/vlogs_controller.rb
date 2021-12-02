@@ -1,7 +1,7 @@
 require 'securerandom'
 require 'pp'
 
-@expire_val = 100.minutes
+@expire_val = 1.seconds
 
 class VlogsController < ApplicationController
   before_action :set_vlog, only: %i[ show edit update destroy ]
