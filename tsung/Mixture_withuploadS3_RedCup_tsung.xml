@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
+<tsung loglevel="notice">
+  <clients>
+    <client host="localhost" maxusers="32768" use_controller_vm="true" />
+  </clients>
+
+  <servers>
+    <server host="55noS3.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+  </servers>
+
+  <load>
+    <arrivalphase phase="1" duration="15" unit="second">
+      <users arrivalrate="1" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="3" duration="15" unit="second">
+      <users arrivalrate="2" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="4" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="5" duration="15" unit="second">
+      <users arrivalrate="4" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="7" duration="15" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="8" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="9" duration="15" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="10" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="11" duration="15" unit="second">
+      <users arrivalrate="32" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="12" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="13" duration="15" unit="second">
+      <users arrivalrate="64" unit="second"></users>
+    </arrivalphase>
+    
+  </load>
+
+  <options>
+    <!-- Set connection timeout to 2 seconds -->
+    <option name="global_ack_timeout" value="30000"></option>
+  </options>
+  <sessions>
+    <session name="guest" type="ts_http" weight="30">
+      <request>
+        <http method="GET" url="/"></http>
+      </request>
+      <thinktime value="5" random="true"></thinktime>
+      <request>
+        <http method="GET" url="/vlogs/1/"></http>
+      </request>
+      <thinktime value="5" random="true"></thinktime>
+      <request>
+        <http method="GET" url="/vlogs/2/"></http>
+      </request>
+    </session>
+    
+    <session name="new_user" type="ts_http" weight="20">
+      <request>
+        <http method="GET" url="/"></http>
+      </request>
+      <request>
+        <http method="GET" url="/home/about/"></http>
+      </request>
+      <thinktime value="5" random="true"></thinktime>
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url="/users/sign_up/" method="GET" version="1.1"></http>
+      </request>
+      <setdynvars sourcetype="random_string" length="8">
+        <var name="rndstring1" />
+      </setdynvars>
+      <request subst="true">
+        <http content_type="application/x-www-form-urlencoded"
+              contents="authenticity_token=%%_authenticity_token%%&amp;user%5Bemail%5D=%%_rndstring1%%%40mordor.com&amp;user%5Bpassword%5D=123456&amp;user%5Bpassword_confirmation%5D=123456&amp;commit=Sign%20up"
+              method="POST"
+              url="/users/"
+              version="1.1">
+        </http>
+      </request>
+      <thinktime value="5" random="true"></thinktime>
+      <request>
+        <http method="GET" url="/vlogs/"></http>
+      </request>
+      <request>
+        <http method="GET" url="/vlogs?page=2"></http>
+      </request>
+    </session>
+    
+    
+    <session name="old_user" type="ts_http" weight="50">
+      <request>
+        <http method="GET" url="/"></http>
+      </request>
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url="/users/sign_up/" method="GET" version="1.1"></http>
+      </request>
+      <setdynvars sourcetype="random_string" length="8">
+        <var name="rndstring" />
+      </setdynvars>
+      <request subst="true">
+        <http content_type="application/x-www-form-urlencoded"
+              contents="authenticity_token=%%_authenticity_token%%&amp;user%5Bemail%5D=%%_rndstring%%%40mordor.com&amp;user%5Bpassword%5D=123456&amp;user%5Bpassword_confirmation%5D=123456&amp;commit=Sign%20up"
+              method="POST"
+              url="/users/"
+              version="1.1">
+        </http>
+      </request>
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url="/vlogs/new/" method="GET" version="1.1"></http>
+      </request>
+      <request subst="true">
+        <http content_type="application/x-www-form-urlencoded"
+              contents="authenticity_token=%%_authenticity_token%%&amp;vlog%5Btitle%5D=HelloWorld&amp;vlog%5Bcontent%5D=123456&amp;vlog%5Buser_name%5D=Anonymous&amp;vlog%5Buser_id%5D=5&amp;commit=Create%20Vlog&amp;vlog%5Bfile%5D=https://s3.maytheforcebewithyou.com"
+              method="POST"
+              url="/vlogs/"
+              version="1.1">
+        </http>
+      </request>
+      <thinktime value="5" random="true"></thinktime>
+      
+      <setdynvars sourcetype="random_number" start="1" end="100000">
+        <var name="rndint" />
+      </setdynvars>
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url="/vlogs/1/" method="GET" version="1.1"></http>
+      </request>
+      <request subst="true">
+        <http content_type="application/x-www-form-urlencoded"
+              contents="authenticity_token=%%_authenticity_token%%&amp;commit=Like%20%E2%99%A5%EF%B8%8F"
+              method="POST"
+              url="/vlogs/1/likes/"
+              version="1.1">
+        </http>
+      </request>
+    </session>
+    
+  </sessions>
+</tsung>

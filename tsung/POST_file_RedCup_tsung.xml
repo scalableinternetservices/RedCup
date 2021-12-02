@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
+<tsung loglevel="notice">
+  <clients>
+    <client host="localhost" maxusers="32768" use_controller_vm="true" />
+  </clients>
+
+  <servers>
+    <server host="55noS3.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+  </servers>
+
+  <load>
+    <arrivalphase phase="1" duration="15" unit="second">
+      <users arrivalrate="1" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="3" duration="15" unit="second">
+      <users arrivalrate="2" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="4" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="5" duration="15" unit="second">
+      <users arrivalrate="4" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="7" duration="15" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="8" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="9" duration="15" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="10" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="11" duration="15" unit="second">
+      <users arrivalrate="32" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="12" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="13" duration="15" unit="second">
+      <users arrivalrate="64" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="14" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="15" duration="15" unit="second">
+      <users arrivalrate="128" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="16" duration="10" unit="second">
+      <users interarrival="10" unit="second"></users>
+    </arrivalphase>
+    
+    <arrivalphase phase="17" duration="15" unit="second">
+      <users arrivalrate="256" unit="second"></users>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <!-- Set connection timeout to 2 seconds -->
+    <option name="global_ack_timeout" value="30000"></option>
+  </options>
+
+  <sessions>
+    <session name="upload" type="ts_http" weight="1">
+      <request>
+        <http url='/vlogs/' version='1.1'  contents_from_file='./recorder.bin' content_type='multipart/form-data; boundary=------------------------32a9d1f958529895' method='POST'>
+        <http_header name='Accept' value='*/*' />
+        </http>
+      </request>
+      
+    </session>
+    
+  </sessions>
+</tsung>
