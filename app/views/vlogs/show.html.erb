@@ -8,8 +8,9 @@
       <%= video_tag url_for(@attachment) %>
     <% elsif /image/.match  @actype %>
       <%= image_tag @attachment.variant(gravity: "Southeast", pointsize: "30", fill: "#999", draw: "text 0,0 'RedCup'") %>
-    <% else %>
+    <% elsif @attachment %>
       <%= link_to 'Download', url_for(@attachment), class:"btn btn-primary btn-sm" %>
+    <% else %>
     <%end%>
   </div>
   <div class="card-footer text-muted">

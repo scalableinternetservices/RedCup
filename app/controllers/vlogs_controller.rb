@@ -35,7 +35,13 @@ class VlogsController < ApplicationController
     end
 
     @attachment = @vlog.file
-    @actype = @attachment.content_type
+    begin
+      url_for @attachment
+      @actype = @attachment.content_type
+    rescue => exception
+      @attachment = nil
+      @actype = ""
+    end
 
     @vlog_comments = Rails.cache.fetch("vlog_comments/#{params[:id]}/#{params[:page]}", expires_in: @expire_val) do
       @vlog.comments.includes(:user).paginate(page: params[:page], per_page: 3).order('created_at DESC').to_a
