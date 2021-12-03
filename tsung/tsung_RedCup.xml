@@ -6,24 +6,27 @@
   </clients>
 
   <servers>
-    <server host="annatar.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="base.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
   <load>
-    <arrivalphase phase="1" duration="5" unit="second">
+    <arrivalphase phase="1" duration="15" unit="second">
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
-    <arrivalphase phase="2" duration="5" unit="second">
+    <arrivalphase phase="2" duration="15" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
-    <arrivalphase phase="3" duration="5" unit="second">
+    <arrivalphase phase="3" duration="15" unit="second">
       <users arrivalrate="4" unit="second"></users>
     </arrivalphase>
-    <arrivalphase phase="4" duration="5" unit="second">
+    <arrivalphase phase="4" duration="15" unit="second">
       <users arrivalrate="8" unit="second"></users>
     </arrivalphase>
-    <arrivalphase phase="5" duration="5" unit="second">
+    <arrivalphase phase="5" duration="15" unit="second">
       <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="15" unit="second">
+      <users arrivalrate="32" unit="second"></users>
     </arrivalphase>
   </load>
 
@@ -31,8 +34,8 @@
     <!-- Set connection timeout to 2 seconds -->
     <option name="global_ack_timeout" value="2000"></option>
   </options>
-
   <sessions>
+    <!--
     <session name="example" type="ts_http" weight="1">
       <request>
         <http method="GET" url="/"></http>
@@ -81,7 +84,7 @@
               version="1.1">
         </http>
       </request>
-      <!-- 
+      <!- 
       <request>
         <dyn_variable name="authenticity_token"></dyn_variable>
         <http url="/vlogs/10416/" method="GET" version="1.1"></http>
@@ -94,7 +97,7 @@
               version="1.1">
         </http>
       </request>
-      -->
+      ->
       <request>
         <dyn_variable name="authenticity_token"></dyn_variable>
         <http url="/vlogs/1/" method="GET" version="1.1"></http>
@@ -108,21 +111,19 @@
         </http>
       </request>
     </session>
-    
+    -->
     
     <session name="guest" type="ts_http" weight="30">
       <request>
         <http method="GET" url="/"></http>
       </request>
+      <thinktime value="5" random="true"></thinktime>
       <request>
-        <http method="GET" url="/vlogs/"></http>
-      </request>
-      <request>
-	<http method="GET" url="/vlogs/1/"></http>
+        <http method="GET" url="/vlogs/1/"></http>
       </request>
       <thinktime value="5" random="true"></thinktime>
       <request>
-	<http method="GET" url="/vlogs/2/"></http>
+        <http method="GET" url="/vlogs/2/"></http>
       </request>
     </session>
     
@@ -149,6 +150,7 @@
               version="1.1">
         </http>
       </request>
+      <thinktime value="5" random="true"></thinktime>
       <request>
         <http method="GET" url="/vlogs/"></http>
       </request>
@@ -190,6 +192,7 @@
               version="1.1">
         </http>
       </request>
+      <thinktime value="5" random="true"></thinktime>
       
       <setdynvars sourcetype="random_number" start="1" end="100000">
         <var name="rndint" />
@@ -206,6 +209,7 @@
               version="1.1">
         </http>
       </request>
+      <thinktime value="5" random="true"></thinktime>
     
     </session>
     
