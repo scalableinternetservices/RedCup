@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
+<tsung loglevel="notice">
+  <clients>
+    <client host="localhost" maxusers="32768" use_controller_vm="true" />
+  </clients>
+
+  <servers>
+    <server host="7clientS3.eba-miy5wk4c.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+  </servers>
+
+  <load>
+    <arrivalphase phase="1" duration="60" unit="second" wait_all_sessions_end="true">
+      <users arrivalrate="16" unit="second"/>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="60" unit="second" wait_all_sessions_end="true">
+      <users arrivalrate="32" unit="second"/>
+    </arrivalphase>
+    <arrivalphase phase="3" duration="60" unit="second" wait_all_sessions_end="true">
+      <users arrivalrate="64" unit="second"/>
+    </arrivalphase>
+    <arrivalphase phase="4" duration="60" unit="second" wait_all_sessions_end="true">
+      <users arrivalrate="128" unit="second"/>
+    </arrivalphase>
+    <arrivalphase phase="5" duration="60" unit="second" wait_all_sessions_end="true">
+      <users arrivalrate="256" unit="second"/>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <option name="idle_timeout" value="60000"/>
+    <option name="global_ack_timeout" value="60000"/>
+  </options>
+  
+  <!--if this does not work, 删掉authtoken-->
+  <sessions>    
+    <session name="upload" type="ts_http" weight="1">
+      <request>
+        <http content_type="application/x-www-form-urlencoded"
+              contents="vlog%5Btitle%5D=HelloWorld&amp;vlog%5Bcontent%5D=123456&amp;vlog%5Buser_name%5D=Anonymous&amp;vlog%5Buser_id%5D=5&amp;commit=Create%20Vlog&amp;vlog%5Bfile%5D=https://s3.maytheforcebewithyou.com"
+              method="POST"
+              url="/vlogs/"
+              version="1.1">
+        </http>
+      </request>
+      
+    </session>
+    
+  </sessions>
+</tsung>
