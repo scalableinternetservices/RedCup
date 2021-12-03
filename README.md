@@ -1,24 +1,37 @@
-# README
+# RedCup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+RedCup is a social networking service developed as the course project of CS291A Scalable Web Services@University of California, Santa Barbara. It is implemented with Ruby on Rails, and load-tested with Tsung.
 
-Things you may want to cover:
 
-* Ruby version
 
-* System dependencies
+### Deploy
 
-* Configuration
+During the course, RedCup is deployed to AWS Elastic Beanstalk. A simple way to do this is to run the following commands after ssh into your AWS account:
 
-* Database creation
+```
+eb init --keyname $(whoami) --platform "64bit Amazon Linux 2 v3.3.7 running Ruby 2.7" --region us-west-2 RedCup
+```
 
-* Database initialization
+```
+eb create --envvars SECRET_KEY_BASE=BADSECRET -db.engine postgres -db.i db.t3.micro -db.user u -i t3.micro --single <instance_name>
+```
 
-* How to run the test suite
+RedCup can also be deployed to other web services.
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
 
-* ...
+### Load Test
+
+See README.txt in path `./tsung/`.
+
+
+
+### Contributors
+
+Chaofan Shou: @shouc
+
+Lijuan Cheng: @lijuancheng
+
+Xinyu Liu: @adaliuBC
+
+Zuying Hu: @CollinHU
